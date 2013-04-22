@@ -1,0 +1,12 @@
+
+Aim
+Data
+	Data set
+	Data preparation (preprocessing)
+	Attribute Selection
+Results
+Discussion
+Conclusions
+Reflection
+
+Program Instructions
