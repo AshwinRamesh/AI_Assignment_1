@@ -13,7 +13,7 @@ from heapq import heappush, heappop
 
 num_attributes = 8
 
-def distance_squared(a, b, dimension):
+def euclid_distance_squared(a, b, dimension):
 	d = float(0)
 	for i in range(dimension):
 		d+= (a[i] - b[i])**2
@@ -25,19 +25,19 @@ def classify(k, sample, training_data):
 	class1_count = 0
 
 	for training_sample in training_data:
-		dist = distances_squared(sample, training_sample, num_attributes)
+		dist = euclid_distance_squared(sample, training_sample, num_attributes)
 		heappush(distances, (dist, training_sample) )
 
 	for i in range(k):
 		(_, training_sample) = heappop(distances)
 		if training_sample[num_attributes] == "class0":
-			class0_count++
+			class0_count+=1
 		if training_sample[num_attributes] == "class1":
-			class1_count++
+			class1_count+=1
 	
 	if class0_count > class1_count:
 		return "class0"
-	else 
+	else :
 		return "class1"
 
 
