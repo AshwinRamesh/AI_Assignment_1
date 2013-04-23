@@ -10,6 +10,9 @@ K-nearest neighbor classifier
 """
 
 from heapq import heappush, heappop
+import random
+
+from data_preprocessing import * 
 
 num_attributes = 8
 
@@ -34,11 +37,22 @@ def classify(k, sample, training_data):
 			class0_count+=1
 		if training_sample[num_attributes] == "class1":
 			class1_count+=1
-	
+
 	if class0_count > class1_count:
 		return "class0"
 	else :
 		return "class1"
 
+def main():
+	training_data =  load_csv_data("pima.csv")
+	training_data.pop(0) #pop the header off
 
+	test_sample = training_data.pop(random.randint(0, len(training_data) - 1 ))
 
+	#print "Test sample:", test_sample
+
+	c = classify(10, test_sample, training_data)
+	print "Classifier predicted: ", c, " Actual class: ", test_sample[num_attributes]
+
+if __name__ == "__main__":
+	main()

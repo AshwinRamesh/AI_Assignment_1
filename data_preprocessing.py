@@ -22,7 +22,10 @@ def load_csv_data(filename):
 		for row in rows:
 			sample = []
 			for attribute in row:
-				sample.append(attribute)
+				try: 
+					sample.append(float(attribute))
+				except ValueError:
+					sample.append(attribute)
 			data.append(tuple(sample) )
 	return data
 
