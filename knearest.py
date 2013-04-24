@@ -19,7 +19,7 @@ num_attributes = 8
 def euclid_distance_squared(a, b, dimension):
 	d = float(0)
 	for i in range(dimension):
-		d+= ( float(a[i])  - float(b[i]) ) **2
+		d+= ( a[i] - b[i] ) **2
 	return d
 
 def classify(k, sample, training_data):

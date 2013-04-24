@@ -22,7 +22,10 @@ def load_csv_data(filename):
 		for row in rows:
 			sample = []
 			for attribute in row:
-				sample.append(attribute)
+				try: 
+					sample.append(float(attribute))
+				except ValueError:
+					sample.append(attribute)
 			data.append(tuple(sample) )
 	return data
 
@@ -63,9 +66,9 @@ def preprocess_data(raw_data):
 			v_normalised = normalise_value(v, attributes_min[i], attributes_max[i])
 			normalised_sample.append(v_normalised)
 
-		if sample[num_attributes] == "0":
+		if sample[num_attributes] == float("0"):
 			normalised_sample.append("class0")
-		if sample[num_attributes] == "1":
+		if sample[num_attributes] == float("1"):
 			normalised_sample.append("class1")
 		processed_data.append(normalised_sample)
 
