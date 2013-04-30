@@ -11,9 +11,12 @@ import tenFold
 
 def main():
 	readFile = "pima-indians-diabetes.data"
-	writeFile = "pima.cvs"
+	writeFile = "pima.csv"
+	print "Preprocessing Starting..."
 	data_preprocessing.doPreprocessing(readFile,writeFile)
+	print "Preproccessing Complete"
 
+	print "Algorithms Complete..."
 	return 0;
 
 

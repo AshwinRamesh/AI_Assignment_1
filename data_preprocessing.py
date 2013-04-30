@@ -82,14 +82,3 @@ def doPreprocessing(readFile,writeFile):
 		return True
 	return False
 
-def main():
-	d = load_csv_data("pima-indians-diabetes.data")
-	print "Data loaded from pima-indians-diabetes.data"
-	d = preprocess_data(d)
-	print "Preprocessing complete"
-	write_csv_data("pima.csv", d )
-	print "Preprocessed data written to pima.csv"
-
-
-if __name__ == "__main__":
-	main()
