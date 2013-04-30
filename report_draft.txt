@@ -2,7 +2,7 @@ Aim
 	The aim of Assignment 1 is to investigate the classification performance of a selection of Machine Learning (ML) algorithms. The study is to use a real-world data set with nine known attributes per sample. K-Nearest Neighbor and Naive Bayes classifiers are to be implemented and their performace compared to Machine Learning classifiers from the Weka Software package[1] using 10-fold stratified cross validation. The effects of feature selection - a pruning (or noise elimination technique), will also be explored.
 
 Data set
-
+Write something here about the Data Set and attributes.
 		Attributes
 			1. Number of times pregnant
 			2. Plasma glucose concentration a 2 hours in an oral glucose tolerance test
@@ -14,14 +14,22 @@ Data set
 			8. Age (years)
 			9. Class variable (0 or 1)
 		
+Implementation Language
+	The implementation component of this Assignment was programmed in Python 2.7. 
 
 Data preparation (preprocessing)
+	To preprocess the data, the sample set was read from a file in CSV (comma seperated values) format. With the exception of Class variable, each attribute - column wise - was normalised using:
+		(v_i - v_i_min)/(v_i_max - v_i_min)
+	Where i is the attribute index. This results in each attribute taking a value within the range [0, 1]. The Class attribute for each sample is then changed from a binary 0 or 1 to "class0" or "class1". The data having been now normalised is then written back into a new CSV file named "pima.csv", and a file header for the attribute types inserted at the top, per Assignment requirements. 
+
+	num_pregnant,plasma_glucose_concentration,diastolic_blood_pressure,tricepts_skin_fold_thickness,2hour_serum_insulin,bmi,diabetes_pedigree,age,class
+	CSV file header.
 
 Attribute Selection
 
 Results
 Discussion
-Conclusions
+Conclusions for future work
 Reflection
 
 References
