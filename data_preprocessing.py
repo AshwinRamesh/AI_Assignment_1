@@ -22,7 +22,7 @@ def load_csv_data(filename):
 		for row in rows:
 			sample = []
 			for attribute in row:
-				try: 
+				try:
 					sample.append(float(attribute))
 				except ValueError:
 					sample.append(attribute)
@@ -34,6 +34,7 @@ def write_csv_data(filename, data):
 		writer = csv.writer(csvfile, delimiter=',', quotechar=',')
 		for row in data:
 			writer.writerow(row)
+	return True;
 
 def normalise_value(v, minv, maxv):
 	return (v - minv)/(maxv - minv)
@@ -74,6 +75,12 @@ def preprocess_data(raw_data):
 
 	return processed_data
 
+def doPreprocessing(readFile,writeFile):
+	d = load_csv_data(readFile)
+	d = preprocess_data(d)
+	if write_csv_data(writeFile, d) == True:
+		return True
+	return False
 
 def main():
 	d = load_csv_data("pima-indians-diabetes.data")
