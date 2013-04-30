@@ -1,12 +1,35 @@
-
 Aim
-Data
-	Data set
-	Data preparation (preprocessing)
-	Attribute Selection
+	The aim of Assignment 1 is to investigate the classification performance of a selection of Machine Learning (ML) algorithms. The study is to use a real-world data set with nine known attributes per sample. K-Nearest Neighbor and Naive Bayes classifiers are to be implemented and their performace compared to Machine Learning classifiers from the Weka Software package[1] using 10-fold stratified cross validation. The effects of feature selection - a pruning (or noise elimination technique), will also be explored.
+
+Data set
+
+		Attributes
+			1. Number of times pregnant
+			2. Plasma glucose concentration a 2 hours in an oral glucose tolerance test
+			3. Diastolic blood pressure (mm Hg)
+			4. Triceps skin fold thickness (mm)
+			5. 2-Hour serum insulin (mu U/ml)
+			6. Body mass index (weight in kg/(height in m)^2)
+			7. Diabetes pedigree function
+			8. Age (years)
+			9. Class variable (0 or 1)
+		
+
+Data preparation (preprocessing)
+
+Attribute Selection
+
 Results
 Discussion
 Conclusions
 Reflection
+
+References
+1. Weka - Waikato Environment for Knowledge Analysis.  University of Waikato, New Zealand. 
+Available From: http://www.cs.waikato.ac.nz/ml/weka/ [accessed 2013 April 30]
+
+2. Pima Indians Diabetes Data Set, National Institute of Diabetes and Digestive and Kidney Diseases.
+Available From: UCI Machine Learning Repository
+URL: http://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes [accessed 2013 April 30] 
 
 Program Instructions
