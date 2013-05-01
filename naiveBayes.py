@@ -8,6 +8,24 @@ import math
 from heapq import heappush, heappop
 import random
 
+csv_header = ["num_pregnant", "plasma_glucose_concentration", "diastolic_blood_pressure", "tricepts_skin_fold_thickness", "2hour_serum_insulin",
+		"bmi", "diabetes_pedigree", "age", "class"]
+
+
+# Hugh...
+def calc_mean_sigma(input_data):
+	attribute_means = []
+	attribute_sums = []
+	attribute_signma = []
+	
+	#sums
+	for i in range( csv_header.len() - 1) #don't include class
+		for sample in data:
+			attribute_sums += sample[i]	
+	# averages
+	# sigmas
+	
+
 # Calculate the Mean and Standard Dev. for all columns. Returns array[array[mean,sd]*7] for each column.
 def calculateMeanAndSD(inputData):
 	valueArray = 	{'num_pregnant': {'mean': 0, "sd": 0},
