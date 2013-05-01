@@ -15,6 +15,9 @@ csv_header = ["num_pregnant", "plasma_glucose_concentration", "diastolic_blood_p
 		"bmi", "diabetes_pedigree", "age", "class"]
 num_attributes = 8
 
+def get_header():
+	return csv_header
+
 def load_csv_data(filename):
 	data = []
 	with open (filename,'rb') as csvfile:
