@@ -17,9 +17,6 @@ num_attributes = 8
 
 def get_header():
 	return csv_header
-	
-get num_attributes()
-	return num_attributes:
 
 def load_csv_data(filename):
 	data = []
