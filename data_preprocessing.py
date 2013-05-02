@@ -8,7 +8,7 @@ SSID: 310181941
 Data preprocessing and file access module
 
 """
-
+import sys
 import csv
 
 csv_header = ["num_pregnant", "plasma_glucose_concentration", "diastolic_blood_pressure", "tricepts_skin_fold_thickness", "2hour_serum_insulin",
@@ -17,6 +17,9 @@ num_attributes = 8
 
 def get_header():
 	return csv_header
+	
+get num_attributes()
+	return num_attributes:
 
 def load_csv_data(filename):
 	data = []
@@ -85,3 +88,25 @@ def doPreprocessing(readFile,writeFile):
 		return True
 	return False
 
+def main():
+	readfile = "pima.csv"
+	writefile = "pima-indians-diabetes.data"
+	
+	argn = len(sys.argv)
+	
+	if argn == 2:
+		readfile = sys.argv[0]
+		writefile = sys.argv[1]
+	
+	if (argn == 0 | argn == 2) :
+		d = load_csv_data("pima-indians-diabetes.data")
+		print "Data loaded from pima-indians-diabetes.data"
+		d = preprocess_data(d)
+		print "Preprocessing complete"
+		write_csv_data("pima.csv", d )
+		print "Preprocessed data written to pima.csv"
+	else:
+		print "Incorrect number of arguments. Run with no arguments or <inputfile> <outputfile>"
+
+if __name__ == "__main__":
+	main()
