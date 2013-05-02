@@ -86,8 +86,8 @@ def doPreprocessing(readFile,writeFile):
 	return False
 
 def main():
-	readfile = "pima.csv"
-	writefile = "pima-indians-diabetes.data"
+	readfile = "pima-indians-diabetes.data"
+	writefile = "pima.csv"
 	
 	argn = len(sys.argv)
 	
@@ -96,12 +96,12 @@ def main():
 		writefile = sys.argv[1]
 	
 	if (argn == 0 | argn == 2) :
-		d = load_csv_data("pima-indians-diabetes.data")
-		print "Data loaded from pima-indians-diabetes.data"
+		d = load_csv_data(readfile)
+		print "Data loaded from " + readfile
 		d = preprocess_data(d)
 		print "Preprocessing complete"
-		write_csv_data("pima.csv", d )
-		print "Preprocessed data written to pima.csv"
+		write_csv_data(writefile, d )
+		print "Preprocessed data written to " + writefile
 	else:
 		print "Incorrect number of arguments. Run with no arguments or <inputfile> <outputfile>"
 
