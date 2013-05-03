@@ -97,7 +97,7 @@ def main():
 	
 	if (argn == 0 | argn == 2) :
 		d = load_csv_data(readfile)
-		if (!d | len(d) < 1):
+		if d is empty:
 			print "Couldn't load " + readfile
 			quit()
 		else:
