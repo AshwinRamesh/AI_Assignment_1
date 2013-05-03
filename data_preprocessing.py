@@ -91,13 +91,13 @@ def main():
 	
 	argn = len(sys.argv)
 	
-	if argn == 2:
-		readfile = sys.argv[0]
-		writefile = sys.argv[1]
+	if argn == 3:
+		readfile = sys.argv[1]
+		writefile = sys.argv[2]
 	
-	if (argn == 0 | argn == 2) :
+	if (argn == 3 or argn == 1) : # script name is first item in argv
 		d = load_csv_data(readfile)
-		if d is empty:
+		if len(d) == 0:
 			print "Couldn't load " + readfile
 			quit()
 		else:
