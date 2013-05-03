@@ -97,7 +97,11 @@ def main():
 	
 	if (argn == 0 | argn == 2) :
 		d = load_csv_data(readfile)
-		print "Data loaded from " + readfile
+		if (!d | len(d) < 1):
+			print "Couldn't load " + readfile
+			quit()
+		else:
+			print "Data loaded from " + readfile
 		d = preprocess_data(d)
 		print "Preprocessing complete"
 		write_csv_data(writefile, d )
