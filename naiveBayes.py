@@ -103,8 +103,7 @@ def classify(inputArray,class_zero,class_one):
 		return 0 # for Non-Diabetic
 
 def init_bayes(file_name):
-	training_data = data_preprocessing.load_csv_data(file_name)
-	training_data.pop(0) # remove top row
+	training_data = data_preprocessing.load_csv_data(file_name,False)
 	return calculate_mean_sd(training_data)
 
 def main():

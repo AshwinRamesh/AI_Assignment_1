@@ -18,7 +18,7 @@ num_attributes = 8
 def get_header():
 	return csv_header
 
-def load_csv_data(filename):
+def load_csv_data(filename,return_headers = True):
 	data = []
 	with open (filename,'rb') as csvfile:
 		rows = csv.reader(csvfile, delimiter=',', quotechar=',')
@@ -30,6 +30,8 @@ def load_csv_data(filename):
 				except ValueError:
 					sample.append(attribute)
 			data.append(tuple(sample) )
+	if return_headers == False:
+		data.pop(0) # remove the header
 	return data
 
 def write_csv_data(filename, data):
@@ -85,16 +87,17 @@ def doPreprocessing(readFile,writeFile):
 		return True
 	return False
 
+
 def main():
 	readfile = "pima-indians-diabetes.data"
 	writefile = "pima.csv"
-	
+
 	argn = len(sys.argv)
-	
+
 	if argn == 3:
 		readfile = sys.argv[1]
 		writefile = sys.argv[2]
-	
+
 	if (argn == 3 or argn == 1) : # script name is first item in argv
 		d = load_csv_data(readfile)
 		if len(d) == 0:

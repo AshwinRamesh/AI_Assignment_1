@@ -9,6 +9,7 @@ import random
 def split_classes (file_name):
 	training_data = data_preprocessing.load_csv_data(file_name)
 	training_data.pop(0) # remove top row
+	print len(training_data)
 	class_zero = []
 	class_one = []
 	for row in training_data:
@@ -49,9 +50,34 @@ def create_test_training_arrays(stratified_arrays):
 				training_arrays[x].extend(stratified_arrays[y])
 	return test_arrays,training_arrays
 
-def main():
-	(class_one,class_zero) = split_classes("pima.csv")
+def init_ten_fold_stratification(file_name):
+	(class_one,class_zero) = split_classes(file_name)
 	arrays = split_into_stratified_arrays(class_one, class_zero)
-	(test_arrays,training_arrays) = create_test_training_arrays(arrays)
+	return create_test_training_arrays(arrays)
+
+def write_folds_to_file(folds,file_name):
+	try:
+		f = open(file_name,"w+")
+		for x in xrange(10):
+			if x == 0:
+				f.write("fold%d\n" %(x))
+			else:
+				f.write("\nfold%d\n" %(x))
+			for row in folds[x]:
+				temp_row = str(row)
+				temp_row = temp_row.replace("(","")
+				temp_row = temp_row.replace(")","")
+				temp_row = temp_row.replace("'","")
+				f.write(temp_row+"\n")
+	except:
+		exit(1)
+
+def main():
+	(test_arrays,training_arrays) = init_ten_fold_stratification("pima.csv")
+	write_folds_to_file(test_arrays, "ashtest.txt")
+	#for array in test_arrays:
+	#	print len(array)
+	#for array in training_arrays:
+	#	print len(array)
 if __name__ == "__main__":
 	main()
