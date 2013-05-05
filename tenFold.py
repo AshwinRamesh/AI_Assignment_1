@@ -3,6 +3,7 @@
 # @author Ashwin Ramesh
 # SID 311254012
 import data_preprocessing
+import naiveBayes
 import random
 
 # Split the data into two arrays of each class
@@ -74,7 +75,14 @@ def write_folds_to_file(folds,file_name):
 
 def main():
 	(test_arrays,training_arrays) = init_ten_fold_stratification("pima.csv")
-	write_folds_to_file(test_arrays, "ashtest.txt")
+	write_folds_to_file(test_arrays, "pima-folds.csv")
+	for x in xrange(10):
+		(class_zero,class_one) = naiveBayes.calculate_mean_sd(training_arrays[x])
+		accuracy_knearest = 0 # num of correct classifies
+		accuracy_naive = 0 # num of correct classifies
+		for row in test_arrays[x]:
+			print naiveBayes.classify(row,class_zero,class_one)
+
 	#for array in test_arrays:
 	#	print len(array)
 	#for array in training_arrays:
