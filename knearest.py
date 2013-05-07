@@ -12,7 +12,7 @@ K-nearest neighbor classifier
 from heapq import heappush, heappop
 import random
 
-from data_preprocessing import * 
+from data_preprocessing import *
 
 num_attributes = 8
 class_index = 8
@@ -31,7 +31,7 @@ def classify(k, sample, training_data, attributes_list = None):
 		for attribute_name in attributes_list:
 				index = data_preprocessing.get_header().index(attribute_name)
 				if index > -1:
-					attributes_indexes.append(index)	
+					attributes_indexes.append(index)
 
 	distances = []
 	class0_count = 0
@@ -49,10 +49,14 @@ def classify(k, sample, training_data, attributes_list = None):
 			class1_count+=1
 
 	if class0_count > class1_count:
-	    return 0
+		if training_sample[num_attributes] == 'class0':
+			return 0,True
+		return 0,False
 		#return "class0"
 	else:
-	    return 1
+		if training_sample[num_attributes] == 'class1':
+			return 1,True
+		return 1,False
 		#return "class1"
 
 def main():
@@ -63,8 +67,8 @@ def main():
 
 	#print "Test sample:", test_sample
 
-	c = classify(10, test_sample, training_data)
-	print "Classifier predicted: ", c, " Actual class: ", test_sample[num_attributes]
+	(c,actual) = classify(10, test_sample, training_data)
+	print "Classifier predicted: ", c, " Actual class: ", actual
 
 if __name__ == "__main__":
 	main()

@@ -5,7 +5,7 @@
 import data_preprocessing
 import naiveBayes
 import random
-
+import knearest
 # Split the data into two arrays of each class
 def split_classes (file_name):
 	training_data = data_preprocessing.load_csv_data(file_name)
@@ -73,19 +73,38 @@ def write_folds_to_file(folds,file_name):
 	except:
 		exit(1)
 
-def main():
-	(test_arrays,training_arrays) = init_ten_fold_stratification("pima.csv")
-	write_folds_to_file(test_arrays, "pima-folds.csv")
-	for x in xrange(10):
+def compare_classifiers(read_file,write_file,k_value):
+	(test_arrays,training_arrays) = init_ten_fold_stratification(read_file)
+	write_folds_to_file(test_arrays, write_file)
+	num_rows = 0
+	total_k_nearest = 0
+	total_n_bayes = 0
+	for x in xrange(10): # For every Fold
+		curr_n_bayes = 0
+		curr_k_nearest = 0
 		(class_zero,class_one) = naiveBayes.calculate_mean_sd(training_arrays[x])
-		accuracy_knearest = 0 # num of correct classifies
-		accuracy_naive = 0 # num of correct classifies
-		for row in test_arrays[x]:
-			print naiveBayes.classify(row,class_zero,class_one)
+		num_rows = num_rows + len(test_arrays[x])
+		for row in test_arrays[x]: # for each item in the fold
+			# Do Naive Bayes for all items in the fold
+			(temp_bayes_result,naive_match) = naiveBayes.classify(row,class_zero,class_one)
+			if naive_match == True: # if the classes match
+				curr_n_bayes = curr_n_bayes + 1
+			# Do K-Nearest for all items in the fold
+			(temp_k_val,k_match) = knearest.classify(k_value,row,training_arrays[x])
+			if k_match == True: # if the classes match
+				curr_k_nearest = curr_k_nearest + 1
 
-	#for array in test_arrays:
-	#	print len(array)
-	#for array in training_arrays:
-	#	print len(array)
+		total_n_bayes =total_n_bayes + curr_n_bayes
+		total_k_nearest = total_k_nearest + curr_k_nearest
+		curr_n_bayes = (curr_n_bayes * 100.0) / len(test_arrays[x])
+		curr_k_nearest = (curr_k_nearest * 100.0) /len(test_arrays[x])
+
+		print "Fold-%d\t\tK-Nearest(%d): %.2f%%\t\tN.Bayes: %.2f%%\t\tDifference: %.2f%%" %(x+1,k_value,curr_k_nearest,curr_n_bayes,abs(curr_k_nearest-curr_n_bayes)) # output string
+	total_n_bayes = (total_n_bayes * 100.0) / num_rows
+	total_k_nearest = (total_k_nearest * 100.0) / num_rows
+	print "Total Folds\tK-Nearest(%d): %.2f%%\t\tN.Bayes: %.2f%%\t\tDifference: %.2f%%" %(k_value,total_k_nearest,total_n_bayes,abs(total_k_nearest-total_n_bayes)) # output string
+
+def main():
+	compare_classifiers("pima.csv", "pima-folds.csv",5)
 if __name__ == "__main__":
 	main()
