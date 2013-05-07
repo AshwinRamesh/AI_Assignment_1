@@ -12,7 +12,7 @@ import random
 # convert a array of data into a dictionary of headers=>data
 def convert_array_to_dict(inputArray,headers):
 	outputArray = {}
-	for header in headers[:-1]: # don't include class
+	for header in headers: # don't include class
 		outputArray[header] = inputArray[headers.index(header)]
 	return outputArray
 
@@ -42,6 +42,7 @@ def calculate_mean_sd(inputData):
 	# Calculate Mean #
 	for row in inputData:
 		dictRow = convert_array_to_dict(row,headers)
+		dictRow.pop("class")
 		#break
 		if row[8] == "class1": # for class_one
 			for key in dictRow.keys():
@@ -59,6 +60,7 @@ def calculate_mean_sd(inputData):
 	# Calculate SD
 	for row in inputData:
 		dictRow = convert_array_to_dict(row, headers)
+		dictRow.pop("class")
 		if row[8] == "class1": # for class_one
 			for key in dictRow.keys():
 				class_one[key]['sd'] += math.pow((dictRow[key]-class_one[key]['mean']),2) # (xi - mean)^2
@@ -98,9 +100,13 @@ def classify(inputArray,class_zero,class_one):
 		test_one_val = test_one_val * pdf_array['class_one'][header]
 		test_zero_val = test_zero_val * pdf_array['class_zero'][header]
 	if ((test_one_val - test_zero_val) >= 0):
-		return 1 # for Diabetic
+		if inputArray['class'] == 'class1': # return True if actual == calculated
+			return 1,True # for Diabetic
+		return 1,False
 	else:
-		return 0 # for Non-Diabetic
+		if inputArray['class'] == 'class0': # return True if actual == calculated
+			return 0,True
+		return 0,False # for Non-Diabetic
 
 def init_bayes(file_name):
 	training_data = data_preprocessing.load_csv_data(file_name,False)
