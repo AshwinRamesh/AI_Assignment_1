@@ -23,16 +23,22 @@ def euclid_distance_squared(a, b, attributes):
 		d+= ( a[i] - b[i] ) **2
 	return d
 
-def classify(k, sample, training_data, attributes = None):
-    if attributes == None:
-        attributes = xrange(num_attributes)
+def classify(k, sample, training_data, attributes_list = None):
+	attribute_indexes = range(num_attributes)
+
+	if attributes_list is not None:
+		attribute_indexes = []
+		for attribute_name in attributes_list:
+				index = data_preprocessing.get_header().index(attribute_name)
+				if index > -1:
+					attributes_indexes.append(index)	
 
 	distances = []
 	class0_count = 0
 	class1_count = 0
 
 	for training_sample in training_data:
-		dist = euclid_distance_squared(sample, training_sample, attributes)
+		dist = euclid_distance_squared(sample, training_sample, attribute_indexes)
 		heappush(distances, (dist, training_sample) )
 
 	for i in range(k):
@@ -45,7 +51,7 @@ def classify(k, sample, training_data, attributes = None):
 	if class0_count > class1_count:
 	    return 0
 		#return "class0"
-	else :
+	else:
 	    return 1
 		#return "class1"
 
