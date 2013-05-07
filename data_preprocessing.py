@@ -21,18 +21,21 @@ def get_header():
 
 def load_csv_data(filename,return_headers = True):
 	data = []
-	with open (filename,'rb') as csvfile:
-		rows = csv.reader(csvfile, delimiter=',', quotechar=',')
-		for row in rows:
-			sample = []
-			for attribute in row:
-				try:
-					sample.append(float(attribute))
-				except ValueError:
-					sample.append(attribute)
-			data.append(tuple(sample) )
-	if return_headers == False:
-		data.pop(0) # remove the header
+	try:
+		with open (filename,'rb') as csvfile:
+			rows = csv.reader(csvfile, delimiter=',', quotechar=',')
+			for row in rows:
+				sample = []
+				for attribute in row:
+					try:
+						sample.append(float(attribute))
+					except ValueError:
+						sample.append(attribute)
+				data.append(tuple(sample) )
+		if return_headers == False:
+			data.pop(0) # remove the header
+	except:
+		return None
 	return data
 
 def write_csv_data(filename, data):
@@ -101,7 +104,7 @@ def main():
 
 	if (argn == 3 or argn == 1) : # script name is first item in argv
 		d = load_csv_data(readfile)
-		if len(d) == 0:
+		if (len(d) == 0 or d is None):
 			print "Couldn't load " + readfile
 			quit()
 		else:
