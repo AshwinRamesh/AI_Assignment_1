@@ -23,15 +23,22 @@ def euclid_distance_squared(a, b, attributes):
 		d+= ( a[i] - b[i] ) **2
 	return d
 
-def classify(k, sample, training_data, attributes_list = None):
+def convert_att_names_to_indexes(attributes):
+	attribute_indexes = []
+	for attribute_name in attributes:
+			index = data_preprocessing.get_header().index(attribute_name)
+			if index > -1:
+				attributes_indexes.append(index)
+
+	return attribute_indexes
+
+def classify(k, sample, training_data, att_names = None):
 	attribute_indexes = range(num_attributes)
 
-	if attributes_list is not None:
-		attribute_indexes = []
-		for attribute_name in attributes_list:
-				index = data_preprocessing.get_header().index(attribute_name)
-				if index > -1:
-					attributes_indexes.append(index)
+	if att_names is not None:
+		attribute_indexes = convert_att_names_to_indexes(att_names)
+	
+	class_index = len(attribute_indexes)
 
 	distances = []
 	class0_count = 0
@@ -43,18 +50,19 @@ def classify(k, sample, training_data, attributes_list = None):
 
 	for i in range(k):
 		(_, training_sample) = heappop(distances)
-		if training_sample[num_attributes] == "class0":
+		if training_sample[class_index] == "class0":
 			class0_count+=1
-		if training_sample[num_attributes] == "class1":
+		if training_sample[class_index] == "class1":
 			class1_count+=1
 
+	# Thanks Ashwin..	
 	if class0_count > class1_count:
-		if training_sample[num_attributes] == 'class0':
+		if sample[class_index] == 'class0':
 			return 0,True
 		return 0,False
 		#return "class0"
 	else:
-		if training_sample[num_attributes] == 'class1':
+		if sample[class_index] == 'class1':
 			return 1,True
 		return 1,False
 		#return "class1"
