@@ -14,6 +14,7 @@ import csv
 csv_header = ["num_pregnant", "plasma_glucose_concentration", "diastolic_blood_pressure", "tricepts_skin_fold_thickness", "2hour_serum_insulin",
 		"bmi", "diabetes_pedigree", "age", "class"]
 num_attributes = 8
+class_index = 8
 
 def get_header():
 	return csv_header

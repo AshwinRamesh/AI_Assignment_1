@@ -15,20 +15,24 @@ import random
 from data_preprocessing import * 
 
 num_attributes = 8
+class_index = 8
 
-def euclid_distance_squared(a, b, dimension):
+def euclid_distance_squared(a, b, attributes):
 	d = float(0)
-	for i in range(dimension):
+	for i in attributes:
 		d+= ( a[i] - b[i] ) **2
 	return d
 
-def classify(k, sample, training_data):
+def classify(k, sample, training_data, attributes = None):
+    if attributes == None:
+        attributes = xrange(num_attributes)
+
 	distances = []
 	class0_count = 0
 	class1_count = 0
 
 	for training_sample in training_data:
-		dist = euclid_distance_squared(sample, training_sample, num_attributes)
+		dist = euclid_distance_squared(sample, training_sample, attributes)
 		heappush(distances, (dist, training_sample) )
 
 	for i in range(k):
