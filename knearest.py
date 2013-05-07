@@ -43,9 +43,11 @@ def classify(k, sample, training_data, attributes = None):
 			class1_count+=1
 
 	if class0_count > class1_count:
-		return "class0"
+	    return 0
+		#return "class0"
 	else :
-		return "class1"
+	    return 1
+		#return "class1"
 
 def main():
 	training_data =  load_csv_data("pima.csv")
