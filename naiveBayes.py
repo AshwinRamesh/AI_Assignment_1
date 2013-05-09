@@ -25,9 +25,11 @@ def print_mean_sd(data,name):
 	return print_line
 
 # Calculate the Mean and Standard Dev. for all columns. Returns array[array[mean,sd]*7] for each column.
-def calculate_mean_sd(inputData):
-
-	headers = data_preprocessing.get_header() # headers to data
+def calculate_mean_sd(inputData,attr_names=False):
+	if attr_names == False:
+		headers = data_preprocessing.get_header() # headers to data
+	else:
+		headers = attr_names
 	class_one = {} 	# People with Diabetes
 	class_zero = {} 	# People without Diabetes
 
@@ -41,10 +43,12 @@ def calculate_mean_sd(inputData):
 
 	# Calculate Mean #
 	for row in inputData:
+		print "INPUT: "+ str(row)
 		dictRow = convert_array_to_dict(row,headers)
-		dictRow.pop("class")
-		#break
-		if row[8] == "class1": # for class_one
+		print "ROWS: " +  str(dictRow)
+		class_name = dictRow.pop("class")
+		print "ROW: "+ str(class_name)
+		if class_name == "class1": # for class_one
 			for key in dictRow.keys():
 				class_one[key]['mean'] += dictRow[key]
 			class_one['size'] += 1 # increment
@@ -60,8 +64,8 @@ def calculate_mean_sd(inputData):
 	# Calculate SD
 	for row in inputData:
 		dictRow = convert_array_to_dict(row, headers)
-		dictRow.pop("class")
-		if row[8] == "class1": # for class_one
+		class_name = dictRow.pop("class")
+		if class_name == "class1": # for class_one
 			for key in dictRow.keys():
 				class_one[key]['sd'] += math.pow((dictRow[key]-class_one[key]['mean']),2) # (xi - mean)^2
 		else: # for class_zero
@@ -105,6 +109,7 @@ def classify(inputArray,class_zero,class_one,attr_names=False):
 	for header in headers[:-1]: # multiplying out the bayes value for 0 and 1
 		test_one_val = test_one_val * pdf_array['class_one'][header]
 		test_zero_val = test_zero_val * pdf_array['class_zero'][header]
+	print "one: %f zero: %f "%(test_one_val,test_zero_val)
 	if ((test_one_val - test_zero_val) >= 0):
 		if inputArray['class'] == 'class1': # return True if actual == calculated
 			return 1,True # for Diabetic
@@ -114,18 +119,20 @@ def classify(inputArray,class_zero,class_one,attr_names=False):
 			return 0,True
 		return 0,False # for Non-Diabetic
 
-def init_bayes(file_name):
+def init_bayes(file_name,attr_names=False):
 	training_data = data_preprocessing.load_csv_data(file_name,False)
-	return calculate_mean_sd(training_data)
+	return calculate_mean_sd(training_data,attr_names)
 
 def main():
 	attr_names = ['plasma_glucose_concentration','bmi','diabetes_pedigree','age','class'] # For CFS
-	(class_zero, class_one) = init_bayes("pima.csv")
+	(class_zero, class_one) = init_bayes("pima.csv",attr_names)
 	data = data_preprocessing.load_csv_data("pima.csv")
 	data.pop(0)
-	print classify(data[0], class_zero, class_one,attr_names)
-	print classify(data[1], class_zero, class_one)
-	print classify(data[2], class_zero, class_one,attr_names)
+	for item in data:
+		print classify(item, class_zero, class_one,attr_names)
+	#print classify(data[0], class_zero, class_one,attr_names)
+	#print classify(data[1], class_zero, class_one)
+	#print classify(data[2], class_zero, class_one,attr_names)
 	print print_mean_sd(class_zero,"Class Zero")
 	print print_mean_sd(class_one, "Class One")
 
