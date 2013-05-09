@@ -38,8 +38,8 @@ def classify(k, sample, training_data, att_names = None):
 		att_names = data_preprocessing.get_header()
 
 	attribute_indexes = convert_att_names_to_indexes(att_names)
-
-	class_index = att_names.index("class")
+#	class_index = att_names.index("class")
+	class_index = data_preprocessing.get_header().index("class")
 
 	distances = []
 	class0_count = 0
@@ -66,6 +66,11 @@ def classify(k, sample, training_data, att_names = None):
 		return 1,False
 
 def main():
+
+	#attr_names = ['plasma_glucose_concentration','bmi','diabetes_pedigree','age','class'] # For CFS
+	attr_names = None
+
+
 	training_data =  data_preprocessing.load_csv_data("pima.csv")
 	training_data.pop(0) #pop the header off
 
@@ -73,7 +78,7 @@ def main():
 
 	#print "Test sample:", test_sample
 
-	(c,correctness) = classify(10, test_sample, training_data)
+	(c,correctness) = classify(10, test_sample, training_data, attr_names)
 	print "Classifier predicted: ", c, " Correctness: ", correctness
 
 if __name__ == "__main__":
