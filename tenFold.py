@@ -73,7 +73,7 @@ def write_folds_to_file(folds,file_name):
 	except:
 		exit(1)
 
-def compare_classifiers(read_file,write_file,k_value):
+def compare_classifiers(read_file,write_file,k_value,attr_names=False):
 	(test_arrays,training_arrays) = init_ten_fold_stratification(read_file)
 	write_folds_to_file(test_arrays, write_file)
 	num_rows = 0
@@ -86,11 +86,17 @@ def compare_classifiers(read_file,write_file,k_value):
 		num_rows = num_rows + len(test_arrays[x])
 		for row in test_arrays[x]: # for each item in the fold
 			# Do Naive Bayes for all items in the fold
-			(temp_bayes_result,naive_match) = naiveBayes.classify(row,class_zero,class_one)
+			if attr_names == False:
+				(temp_bayes_result,naive_match) = naiveBayes.classify(row,class_zero,class_one)
+			else:
+				(temp_bayes_result,naive_match) = naiveBayes.classify(row,class_zero,class_one,attr_names)
 			if naive_match == True: # if the classes match
 				curr_n_bayes = curr_n_bayes + 1
 			# Do K-Nearest for all items in the fold
-			(temp_k_val,k_match) = knearest.classify(k_value,row,training_arrays[x])
+			if attr_names == False:
+				(temp_k_val,k_match) = knearest.classify(k_value,row,training_arrays[x])
+			else:
+				(temp_k_val,k_match) = knearest.classify(k_value,row,training_arrays[x],attr_names)
 			if k_match == True: # if the classes match
 				curr_k_nearest = curr_k_nearest + 1
 
@@ -105,8 +111,11 @@ def compare_classifiers(read_file,write_file,k_value):
 	print "Total Folds\tK-Nearest(%d): %.2f%%\t\tN.Bayes: %.2f%%\t\tDifference: %.2f%%" %(k_value,total_k_nearest,total_n_bayes,abs(total_k_nearest-total_n_bayes)) # output string
 
 def main():
-	compare_classifiers("pima.csv", "pima-folds.csv",1)
+	attr_names = ['plasma_glucose_concentration','bmi','diabetes_pedigree','age','class'] # For CFS
+	#compare_classifiers("pima.csv", "pima-folds.csv",1)
 	compare_classifiers("pima.csv", "pima-folds.csv",5)
-	compare_classifiers("pima.csv", "pima-folds.csv",10)
+	#compare_classifiers("pima.csv", "pima-folds.csv",10)
+	compare_classifiers("pima.csv", "pima-folds.csv", 5, attr_names)
+
 if __name__ == "__main__":
 	main()

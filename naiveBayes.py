@@ -81,8 +81,11 @@ def PDF_math(attr_val,mean,sd):
 	return value
 
 # Calculate the PDF value for a given mean and SD
-def calculate_PDF(inputArray,class_zero,class_one):
-	headers = data_preprocessing.get_header()
+def calculate_PDF(inputArray,class_zero,class_one,attr_names=False):
+	if attr_names == False:
+		headers = data_preprocessing.get_header()
+	else:
+		headers = attr_names
 	pdf_array = {'class_zero':{},'class_one':{}}
 	for header in headers[:-1]:
 		pdf_array['class_zero'][header] = PDF_math(inputArray[header],class_zero[header]['mean'],class_zero[header]['sd'])
@@ -90,10 +93,13 @@ def calculate_PDF(inputArray,class_zero,class_one):
 	return pdf_array
 
 # Classify a given dataSet. Requires the output of calculateMeanAndSD.
-def classify(inputArray,class_zero,class_one):
-	headers = data_preprocessing.get_header()
+def classify(inputArray,class_zero,class_one,attr_names=False):
+	if attr_names == False:
+		headers = data_preprocessing.get_header()
+	else:
+		headers = attr_names
 	inputArray = convert_array_to_dict(inputArray, headers)
-	pdf_array = calculate_PDF(inputArray,class_zero,class_one)
+	pdf_array = calculate_PDF(inputArray,class_zero,class_one,attr_names)
 	test_one_val = float(class_one['size'])/float(class_one['size']+class_zero['size']) # total percentage of classOne
 	test_zero_val =  float(class_zero['size'])/float(class_one['size']+class_zero['size']) # total percentage of classZero
 	for header in headers[:-1]: # multiplying out the bayes value for 0 and 1
@@ -113,12 +119,13 @@ def init_bayes(file_name):
 	return calculate_mean_sd(training_data)
 
 def main():
+	attr_names = ['plasma_glucose_concentration','bmi','diabetes_pedigree','age','class'] # For CFS
 	(class_zero, class_one) = init_bayes("pima.csv")
 	data = data_preprocessing.load_csv_data("pima.csv")
 	data.pop(0)
-	print classify(data[0], class_zero, class_one)
+	print classify(data[0], class_zero, class_one,attr_names)
 	print classify(data[1], class_zero, class_one)
-	print classify(data[2], class_zero, class_one)
+	print classify(data[2], class_zero, class_one,attr_names)
 	print print_mean_sd(class_zero,"Class Zero")
 	print print_mean_sd(class_one, "Class One")
 
