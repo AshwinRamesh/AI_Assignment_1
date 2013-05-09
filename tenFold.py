@@ -105,6 +105,8 @@ def compare_classifiers(read_file,write_file,k_value):
 	print "Total Folds\tK-Nearest(%d): %.2f%%\t\tN.Bayes: %.2f%%\t\tDifference: %.2f%%" %(k_value,total_k_nearest,total_n_bayes,abs(total_k_nearest-total_n_bayes)) # output string
 
 def main():
+	compare_classifiers("pima.csv", "pima-folds.csv",1)
 	compare_classifiers("pima.csv", "pima-folds.csv",5)
+	compare_classifiers("pima.csv", "pima-folds.csv",10)
 if __name__ == "__main__":
 	main()

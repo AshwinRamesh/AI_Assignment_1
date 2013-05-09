@@ -37,7 +37,7 @@ def classify(k, sample, training_data, att_names = None):
 
 	if att_names is not None:
 		attribute_indexes = convert_att_names_to_indexes(att_names)
-	
+
 	class_index = len(attribute_indexes)
 
 	distances = []
@@ -54,18 +54,14 @@ def classify(k, sample, training_data, att_names = None):
 			class0_count+=1
 		if training_sample[class_index] == "class1":
 			class1_count+=1
-
-	# Thanks Ashwin..	
 	if class0_count > class1_count:
 		if sample[class_index] == 'class0':
 			return 0,True
 		return 0,False
-		#return "class0"
 	else:
 		if sample[class_index] == 'class1':
 			return 1,True
 		return 1,False
-		#return "class1"
 
 def main():
 	training_data =  load_csv_data("pima.csv")
