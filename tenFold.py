@@ -82,7 +82,7 @@ def compare_classifiers(read_file,write_file,k_value,attr_names=False):
 	for x in xrange(10): # For every Fold
 		curr_n_bayes = 0
 		curr_k_nearest = 0
-		(class_zero,class_one) = naiveBayes.calculate_mean_sd(training_arrays[x])
+		(class_zero,class_one) = naiveBayes.calculate_mean_sd(training_arrays[x],attr_names)
 		num_rows = num_rows + len(test_arrays[x])
 		for row in test_arrays[x]: # for each item in the fold
 			# Do Naive Bayes for all items in the fold
