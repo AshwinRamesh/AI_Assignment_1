@@ -12,10 +12,8 @@ K-nearest neighbor classifier
 from heapq import heappush, heappop
 import random
 
-from data_preprocessing import *
+import data_preprocessing
 
-num_attributes = 8
-class_index = 8
 
 def euclid_distance_squared(a, b, attributes):
 	d = float(0)
@@ -26,19 +24,22 @@ def euclid_distance_squared(a, b, attributes):
 def convert_att_names_to_indexes(attributes):
 	attribute_indexes = []
 	for attribute_name in attributes:
-			index = data_preprocessing.get_header().index(attribute_name)
-			if index > -1:
-				attributes_indexes.append(index)
+		if attribute_name == "class":
+			continue
+		index = data_preprocessing.get_header().index(attribute_name)
+		if index > -1:
+			attribute_indexes.append(index)
 
 	return attribute_indexes
 
 def classify(k, sample, training_data, att_names = None):
-	attribute_indexes = range(num_attributes)
 
-	if att_names is not None:
-		attribute_indexes = convert_att_names_to_indexes(att_names)
+	if att_names == None:
+		att_names = data_preprocessing.get_header()
 
-	class_index = len(attribute_indexes)
+	attribute_indexes = convert_att_names_to_indexes(att_names)
+
+	class_index = att_names.index("class")
 
 	distances = []
 	class0_count = 0
@@ -54,6 +55,7 @@ def classify(k, sample, training_data, att_names = None):
 			class0_count+=1
 		if training_sample[class_index] == "class1":
 			class1_count+=1
+
 	if class0_count > class1_count:
 		if sample[class_index] == 'class0':
 			return 0,True
@@ -64,15 +66,15 @@ def classify(k, sample, training_data, att_names = None):
 		return 1,False
 
 def main():
-	training_data =  load_csv_data("pima.csv")
+	training_data =  data_preprocessing.load_csv_data("pima.csv")
 	training_data.pop(0) #pop the header off
 
 	test_sample = training_data.pop(random.randint(0, len(training_data) - 1 ))
 
 	#print "Test sample:", test_sample
 
-	(c,actual) = classify(10, test_sample, training_data)
-	print "Classifier predicted: ", c, " Actual class: ", actual
+	(c,correctness) = classify(10, test_sample, training_data)
+	print "Classifier predicted: ", c, " Correctness: ", correctness
 
 if __name__ == "__main__":
 	main()
